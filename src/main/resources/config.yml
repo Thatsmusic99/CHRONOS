@@ -1,0 +1,121 @@
+# CHRONOS
+# Author: Thatsmusic99
+
+# Don't change the config version - it is used to update this config!
+config-version: 0
+
+##################
+#  SQL settings  #
+##################
+
+# SQL Type - how the data is stored.
+#            By default, CHRONOS stores using SQLite (SQLite).
+#            However, you can store data using MySQL (MySQL).
+# CHRONOS does not use JSON or YML storage to ensure it updates as fast as it can.
+sql-type: SQLite
+
+# MySQL connection properties
+# If the sql-type is not MySQL, you can ignore this configuration.
+mysql:
+  # The host name of your database.
+  host: localhost
+  # The port of your database.
+  port: 3306
+  # The name of the database itself.
+  database: db
+  # The username which is required
+  user: root
+
+sqlite:
+  filename: chronos-data
+
+save-rate: 5
+
+##########################
+#  Player time settings  #
+##########################
+
+playtime-logging: true
+
+pt-table: chronos_times
+
+####################
+#  AFK Protection  #
+####################
+
+#
+afk-protection: true
+
+ap-table: chronos_afk
+
+# Minimum amount of time before a player is required AFK
+# When a player does not meet the criteria below, they are considered AFK.
+# This is in seconds (10 minutes by default)
+min-time-before-afk: 600
+
+# Notify a player when they go AFK - this will only send them a message.
+notify-player: false
+
+# Broadcast a message when the player goes AFK or is no longer AFK.
+broadcast-afk: false
+
+# If applicable, collisions will be prevented whilst the player is AFK.
+# Please keep in mind that this requires Spigot or any fork of Spigot (e.g. Paper).
+stop-collisions: true
+
+# Cancels any "true" actions whilst the player is AFK.
+cancel-actions:
+  move:
+    sneaking: false
+    in-vehicle: false
+    teleport: false
+    yaw: false
+  inventory:
+    move-items: false
+    swap-hands: false
+    change-hand: false
+    equip-armour: false
+  interact:
+    break: true
+    place: false
+    eat: true
+    attack: true
+    take-damage: true
+
+# Required actions to break out of the AFK time
+# By default, chat and move are often the defining factors that determine if a player is AFK or not.
+# If a value is set to true, then it will mark the player as no longer AFK/stops them from going AFK.
+# Some are set to false as
+#
+# move.sneaking - when a player sneaks
+# move.in-vehicle - when a player is in a vehicle (minecart, horse)
+# move.teleport - when a player teleports
+# move.yaw - when a player moves their head
+# inventory.move-items - when a player moves items in their inventory
+# inventory.swap-hands - when
+#
+required-actions:
+  move:
+    sneaking: true
+    in-vehicle: false
+    teleport: false
+    yaw: true
+  inventory:
+    move-items: false
+    swap-hands: false
+    change-hand: false
+    equip-armour: false
+  interact:
+    break: false
+    place: true
+    eat: false
+    attack: false
+    take-damage: false
+  chat:
+    send-message: true
+    send-command: true
+  #- break
+  #- place
+  #- ride
+  #- interact
+  #- eat

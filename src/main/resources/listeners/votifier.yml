@@ -1,0 +1,41 @@
+# CHRONOS
+# Author: Thatsmusic99
+
+# This is an example config for a voting listener managed by Votifier.
+
+# Firstly,
+enabled: false
+
+# Stat ID - what the statistic is identified by and will be used in commands.
+stat-id: votifier
+
+# Stat name - the name of the statistic which is displayed in commands/leaderboards.
+stat-name: Votes
+
+# Required plugin - if the plugin isn't found, this listener is skipped.
+required-plugin: Votifier
+
+# Plugin author - Because some plugins have matching names, you can optionally check if the plugin author matches the one provided.
+# If the plugin has multiple authors, you can use "ABC DEF" where ABC and DEF are two different authors.
+author: "blakeman8192 Kramer"
+
+incrementing:
+  event-class: com.vexsoftware.votifier.model.VotifierEvent
+
+  # Player identifier - this is a method where the player can be properly identified, either through UUID or player name.
+  # In Votifier, you can only identify the player through their name, so we'll get them through that.
+  # The plugin can identify between UUIDs and player names automatically.
+  player-identifier: ["getVote", "getUsername"]
+
+  # Variables - these are used in
+  variables:
+    service: ["getVote", "getServiceName"]
+    player: ["getVote", "getUsername"]
+    address: ["getVote", "getAddress"]
+    timestamp: ["getVote", "getTimestamp"]
+
+# 
+decrementing:
+  event-class: ''
+
+

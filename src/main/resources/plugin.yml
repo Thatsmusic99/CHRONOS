@@ -1,0 +1,7 @@
+main: io.github.thatsmusic99.chronos.Chronos
+name: CHRONOS
+version: 1.0-BETA
+description: Player playtime tracking and reporting.  Playtime rewards, automated rank promotion, referral rewards, more!
+author: Thatsmusic99
+
+
