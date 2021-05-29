@@ -9,8 +9,8 @@ config-version: 0
 ##################
 
 # SQL Type - how the data is stored.
-#            By default, CHRONOS stores using SQLite (SQLite).
-#            However, you can store data using MySQL (MySQL).
+#            By default, CHRONOS stores using SQLite (SQLite), which stores data in a .db file.
+#            However, you can store data using MySQL (MySQL), which stores data in an external database.
 # CHRONOS does not use JSON or YML storage to ensure it updates as fast as it can.
 sql-type: SQLite
 
@@ -23,35 +23,57 @@ mysql:
   port: 3306
   # The name of the database itself.
   database: db
-  # The username which is required
+  # The username which is required to log in.
   user: root
 
-sqlite:
-  filename: chronos-data
+# Table prefix for every CHRONOS table
+# This is so that the plugin is able to identify which tables it should access and modify.
+table-prefix: chronos_
 
-save-rate: 5
+# SQLite settings
+sqlite:
+  # File name for the SQLite DB file
+  # This will automatically have the .db extension.
+  filename: chronos-data
 
 ##########################
 #  Player time settings  #
 ##########################
 
+# Whether to log player time or not.
 playtime-logging: true
 
-pt-table: chronos_times
+pt-table: times
+
+# Reset periods for each CHRONOS table.
+# You can add your own time frames in here and define a reset period for them.
+# Format: {seconds} {minutes} {hours} {day of the month} {month} {day of week} {year}
+# IMPORTANT: PLEASE ensure your server doesn't restart at the same time as the reset periods!
+reset-periods:
+  # Resets every day at midnight
+  daily: 0 0 0 ? * * *
+  # Resets every Monday at midnight
+  weekly: 0 0 0 * * MON *
+  # Resets every 1st of the month at midnight
+  monthly: 0 0 0 1 * ?
+  # Resets every 1st of January at midnight
+  yearly: 0 0 0 1 JAN ? *
+
 
 ####################
 #  AFK Protection  #
 ####################
 
-#
+# Choose whether you want to stop players from having AFK time counted or not.
+# This does not require playtime logging to be enabled.
 afk-protection: true
 
-ap-table: chronos_afk
+ap-table: afk
 
 # Minimum amount of time before a player is required AFK
-# When a player does not meet the criteria below, they are considered AFK.
-# This is in seconds (10 minutes by default)
-min-time-before-afk: 600
+# When a player does not meet the criteria further below, they are considered AFK.
+# This is in seconds (5 minutes by default)
+min-time-before-afk: 300
 
 # Notify a player when they go AFK - this will only send them a message.
 notify-player: false
@@ -63,17 +85,29 @@ broadcast-afk: false
 # Please keep in mind that this requires Spigot or any fork of Spigot (e.g. Paper).
 stop-collisions: true
 
+# If a player is AFK for X seconds, they will be kicked from the server.
+# Change to -1 to disable.
+min-time-before-kick: 600
+
 # Cancels any "true" actions whilst the player is AFK.
 cancel-actions:
   move:
+    # when a player sneaks
     sneaking: false
+    # when a player is in a vehicle (minecart, horse)
     in-vehicle: false
+    # when a player teleports
     teleport: false
+    # when a player moves their head
     yaw: false
   inventory:
+    # when a player moves items in their inventory
     move-items: false
+    # when a player swaps items between their main and off hand (1.9+)
     swap-hands: false
+    # when a player changes the item in their main hand
     change-hand: false
+    # when a player equips armour
     equip-armour: false
   interact:
     break: true
@@ -85,11 +119,11 @@ cancel-actions:
 # Required actions to break out of the AFK time
 # By default, chat and move are often the defining factors that determine if a player is AFK or not.
 # If a value is set to true, then it will mark the player as no longer AFK/stops them from going AFK.
-# Some are set to false as
+# Some are set to false as they can be small actions or used to prevent being caught by common AFK checks.
 #
-# move.sneaking - when a player sneaks
-# move.in-vehicle - when a player is in a vehicle (minecart, horse)
-# move.teleport - when a player teleports
+# move.sneaking -
+# move.in-vehicle -
+# move.teleport -
 # move.yaw - when a player moves their head
 # inventory.move-items - when a player moves items in their inventory
 # inventory.swap-hands - when
@@ -114,8 +148,37 @@ required-actions:
   chat:
     send-message: true
     send-command: true
-  #- break
-  #- place
-  #- ride
-  #- interact
-  #- eat
+
+#############
+#  Backups  #
+#############
+
+# Once upon a time, my server hosting had a database failure.
+# Some data was lost, including my own, and we had no access for about 4-5 weeks.
+# This was because it was a hardware failure by the way.
+# COVID-19 additionally screwed up supply chains.
+# SOOOOO, to avoid my situation whilst using MySQL, do you want database data to be backed up frequently?
+enable-backups: true
+
+# CRON schedule used to manage backups
+# The example below makes backups run every day at noon (12pm).
+# Format: {seconds} {minutes} {hours} {day of the month} {month} {day of week} {year}
+# Take a look at https://freeformatter.com/cron-expression-generator-quartz.html for more examples.
+cron-schedule: 0 0 12 ? * * *
+
+# The folder in which backups are stored in.
+# {plugin} is the CHRONOS plugin folder in plugins > CHRONOS
+directory: '{plugin}/backups'
+
+# The maximum amount of backups until the oldest is removed.
+max-backups: 14
+
+#################
+# Miscellaneous #
+#################
+
+default-permissions:
+  - chronos.time
+  - chronos.track
+  - chronos.info
+  - chronos.listener.*

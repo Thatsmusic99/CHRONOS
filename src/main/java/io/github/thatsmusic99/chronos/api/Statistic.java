@@ -1,8 +1,5 @@
 package io.github.thatsmusic99.chronos.api;
 
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-
 public class Statistic {
 
     private String displayName;
@@ -13,7 +10,11 @@ public class Statistic {
         this.id = id;
     }
 
-    public CompletableFuture<String> addPlayerStat(UUID uuid, String... subtypes) {
+    public String getDisplayName() {
+        return displayName;
+    }
 
+    public String getId() {
+        return id;
     }
 }

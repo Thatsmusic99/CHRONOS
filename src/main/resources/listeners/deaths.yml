@@ -1,0 +1,21 @@
+# CHRONOS
+# Author: Thatsmusic99
+
+# This is an example config for a death listener that uses the Bukkit API instead of a plugin.
+
+# Please do not change this version! This is to ensure that the listener is up to date.
+listener-version: 1.0
+
+enabled: false
+
+stat-id: deaths
+
+stat-name: Deaths
+
+required-plugin: ''
+author: ''
+
+incrementing:
+  event-class: org.bukkit.event.entity.PlayerDeathEvent
+  player-identifier: ["getPlayer"]
+

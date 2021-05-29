@@ -1,0 +1,60 @@
+# In the English locale file, this version is updated often by default, please do not change it!
+lang-version: 1.0-BETA-1
+
+# CHRONOS
+# Author: Thatsmusic99
+
+# In this configuration, PlaceholderAPI and JSON/tellraw is supported. :)
+# In order to build up your JSON-powered messages, use https://minecraft.tools/en/tellraw.php to help you!
+# For reference, \u00bb produces the character », which is often used in the CHRONOS message files.
+# If you don't want to use JSON, just use normal text like you would in any other configuration.
+
+# To use multiple lines, turn the message into a list, just like this:
+# test:
+# - Test1
+# - Test 2!
+
+time-format:
+  format: '{days}, {hours}, {minutes}, {seconds}'
+  seconds: '{num} seconds'
+  minutes: '{num} minutes'
+  hours: '{num} hours'
+  days: '{num} days'
+  months: '{num} months'
+  years: '{num} years'
+
+time-info:
+  self:
+    normal:
+      - '&bCHRONOS &8» &7You joined &b{days_ago} &7days ago.'
+      - '&bCHRONOS &8» &7Time logged right now: &b{time_current_login}'
+      - '&bCHRONOS &8» &7Time logged today: &b{time_today}'
+      - '&bCHRONOS &8» &7Time logged this week: &b{time_week}'
+      - '&bCHRONOS &8» &7Time logged this month: &b{time_month}'
+      - '&bCHRONOS &8» &7Time logged this year: &b{time_year}'
+      - '&bCHRONOS &8» &7Time logged in total: &b{time_total}'
+  other:
+    normal:
+      - '&bCHRONOS &8» &7{player} joined &b{pl_days_ago} &7days ago.'
+      - '&bCHRONOS &8» &7Time logged right now: &b{pl_time_current_login}'
+      - '&bCHRONOS &8» &7Time logged today: &b{pl_time_today}'
+      - '&bCHRONOS &8» &7Time logged this week: &b{pl_time_week}'
+      - '&bCHRONOS &8» &7Time logged this month: &b{pl_time_month}'
+      - '&bCHRONOS &8» &7Time logged this year: &b{pl_time_year}'
+      - '&bCHRONOS &8» &7Time logged in total: &b{pl_time_total}'
+
+afk: '&8» &7{player} is now AFK.'
+
+custom:
+  votifier-broadcast: '&8» &b{player} &7just voted for the server on &b{service}!'
+
+info:
+  - '&e⚡ &8&m             &r &8❰ &bCHRONOS &8❱ &m             &r &e⚡'
+  - '&7This server is running &bv{version} &7of &bCHRONOS&7.'
+  - '&bAuthor &8» &7{author}'
+  - '&bLocale &8» &7English (US)'
+  - '&bDiscord &8» &7https://discord.gg/eu8h3BG'
+  - '&bGithub &8» &7https://github.com/Thatsmusic99/CHRONOS'
+
+
+

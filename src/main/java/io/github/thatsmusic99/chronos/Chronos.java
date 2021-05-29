@@ -4,6 +4,7 @@ import io.github.thatsmusic99.chronos.configuration.MainConfiguration;
 import io.github.thatsmusic99.chronos.events.ChronosEventExecutor;
 import io.github.thatsmusic99.chronos.listeners.CustomListener;
 import io.github.thatsmusic99.chronos.sql.SQLHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
@@ -11,12 +12,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
+import java.util.concurrent.Executor;
 
 public class Chronos extends JavaPlugin {
 
     private static Chronos instance;
     private MainConfiguration config;
-    private SQLHandler sql;
+
+    public static Executor async = task -> Bukkit.getScheduler().runTaskAsynchronously(instance, task);
+    public static Executor sync = task -> Bukkit.getScheduler().runTask(instance, task);
 
     @Override
     public void onLoad() {
@@ -27,7 +31,7 @@ public class Chronos extends JavaPlugin {
     public void onEnable() {
         instance = this;
         config = new MainConfiguration(this);
-        sql = new SQLHandler();
+
         for (String str : Arrays.asList(ChatColor.AQUA + " _____ _   _______ _____ _   _ _____ _____ ",
                 ChatColor.AQUA + "/  __ \\ | | | ___ \\  _  | \\ | |  _  /  ___|",
                 ChatColor.AQUA + "| /  \\/ |_| | |_/ / | | |  \\| | | | \\ `--. ",
@@ -38,7 +42,9 @@ public class Chronos extends JavaPlugin {
                 ChatColor.GRAY + "                          by Thatsmusic99")) {
             getServer().getConsoleSender().sendMessage(str);
         }
+
         getServer().getConsoleSender().sendMessage(ChatColor.AQUA + "CHRONOS " + ChatColor.DARK_GRAY + "» " + ChatColor.GRAY + "CHRONOS is enabled!");
+        Bukkit.getScheduler().runTaskAsynchronously(this, SQLHandler::init);
         //
     /*    new BukkitRunnable() {
             @Override
@@ -59,5 +65,9 @@ public class Chronos extends JavaPlugin {
 
     public static Chronos getInstance() {
         return instance;
+    }
+
+    public MainConfiguration getConfiguration() {
+        return config;
     }
 }

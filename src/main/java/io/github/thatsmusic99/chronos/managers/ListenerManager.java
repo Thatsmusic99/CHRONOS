@@ -7,7 +7,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class ListenerManager {
@@ -45,6 +47,17 @@ public class ListenerManager {
                     continue;
                 }
 
+                List<String> playerIdentifier = eventSection.getStringList("player-identifier");
+                // Variable setup
+                HashMap<String, List<String>> variables = new HashMap<>();
+                for (String varKey : eventSection.getConfigurationSection("variables").getKeys(false)) {
+                    variables.put(varKey, eventSection.getStringList("variables." + varKey));
+                }
+                // Action setup
+                List<Action> actions = new ArrayList<>();
+                for (String actionStr : eventSection.getStringList("on-success-actions")) {
+                    actions.add(new Action(actionStr));
+                }
             }
         }
     }
